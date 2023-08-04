@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { useEffect, useState } from 'react';
+import DatePicker from './components/date-picker';
+import MonthlyBalance from './components/monthly-balance';
+import CumulativeBalance from './components/cumulative-balance';
+import ResultComp from './components/result-component';
+import { fetchBalanceForDate } from './service/fetchService';
+interface BalanceDataIntf{
+  monthlyBalance: number,
+  cumulativeBalance: number
+}
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedDate, setSelectedDate]=useState(new Date());
+  const [monthlyBalance, setMonthlyBalance] = useState(0);
+  const [cumulativeBalance, setCumulativeBalance] = useState(0);
 
+  const fetchBalance = async (date: Date) => {
+    const balanceData:BalanceDataIntf = await fetchBalanceForDate(date);
+    balanceData?.cumulativeBalance
+    && balanceData?.cumulativeBalance > 0
+    ? setCumulativeBalance(balanceData.cumulativeBalance)
+    : setCumulativeBalance(0);
+
+    balanceData?.monthlyBalance
+    && balanceData?.monthlyBalance > 0
+    ? setMonthlyBalance(balanceData.monthlyBalance)
+    : setMonthlyBalance(0);
+  }
+  const onDateSelect = (date:Date) => {
+    if(!date){
+      return;
+    }
+    setSelectedDate(date);
+    fetchBalance(date);
+  };
+  useEffect(()=>{
+    fetchBalance(selectedDate);
+  },[]);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <DatePicker
+        defaultValue={selectedDate}
+        value={selectedDate}
+        onDateSelect={onDateSelect} />
+      <ResultComp>
+        <MonthlyBalance value={monthlyBalance}/>
+        <CumulativeBalance value={cumulativeBalance}/>
+      </ResultComp>
     </>
-  )
+  );
 }
 
 export default App
+
+

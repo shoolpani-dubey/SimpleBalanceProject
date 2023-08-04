@@ -8,7 +8,10 @@
 
 
 # Solution
-1. Frontend: Developed in React using Vite.
+1. Assumptions:
+   1. No authentication is needed for users.
+   2. The data is always shown for one user.
+2. Frontend: Developed in React using Vite.
    1. Single page with a date selector to select Month and year.
       1. On date select, call api to get and display monthly and cumulative total.
    2. API: Get ( /balance?date=<the date to show balance>)
@@ -16,17 +19,21 @@
             monthlyTotal: <MonthlyTotal here>
             cumulativeTotal: <Cumulative Total here>
         }
-2. Backend: Developed in Nestjs
+3. Backend: Developed in Nestjs
    1. api(/balance?date=<>) implemented.
       1. This api will talk to a mock api ( thirdpartyapi ) to get amoount transferred and date.
       2. Calculates the monthly and cumulative amount and returns the same.
 
-3. Thirdpartyapi:
-   1. This will be developed as a mock meaning, a simple function that retuns the fixed result based on month.
+4. Thirdpartyapi:
+   1. This will be developed as a mock meaning, a simple function that retuns the fixed result as json .
 
-4. Tests:
+5. Tests:
    1. The api is tested using Jest and multiple test cases are written
    2. The thirdpartyapi is mocked and tested.
+   3. All the test files have extention ".spec.ts"
+   4. To run the tests:
+      1. cd server
+      2. npm run test
 
 
 # How to compile and build the application:
