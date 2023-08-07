@@ -8,12 +8,12 @@ import { catchError, lastValueFrom, map } from 'rxjs';
 export class BalanceServiceImpl {
   constructor(private readonly httpService: HttpService) {}
 
-  getTransactionsForUser = async (userid: number, date: Date) => {
+  getTransactionsForUser = async (userid: number) => {
     const result = this.httpService
-      .get(`https://api.jsonserver.io/users/${userid}/transactions`, {
+      .get(`${process.env.TRANSACTION_SERVER}/users/${userid}/transactions`, {
         method: 'GET',
         headers: {
-          'X-Jsio-Token': '1a889e3cf3e4433cf91217815213647b',
+          'X-Jsio-Token': process.env.TRANSACTION_SERVER_TOKEN,
         },
       })
       .pipe(map((res) => res.data))

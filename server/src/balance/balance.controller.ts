@@ -20,6 +20,7 @@ export class BalanceController {
     @Query() qeryDTO: FindByDateInputDTO,
   ): Promise<FindByDateOutputDTO> {
     Logger.log('Entered findByDate with query:' + qeryDTO.date);
+    // Assuming that authenticated user is accessing the resource.
     const authenticatedUserId = 10001;
     return this.bService.findByDate(authenticatedUserId, qeryDTO.date);
   }

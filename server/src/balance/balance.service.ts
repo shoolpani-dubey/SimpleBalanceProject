@@ -14,10 +14,7 @@ export class BalanceService {
       return null;
     }
     // This is where we write the business logic.
-    const transactions = await this.bServiceImpl.getTransactionsForUser(
-      userid,
-      date,
-    );
+    const transactions = await this.bServiceImpl.getTransactionsForUser(userid);
     Logger.log('T :' + JSON.stringify(transactions[0]));
     Logger.log('T len:' + transactions.length);
     const monthlyBalance = this.bServiceImpl.calculateMonthlyBalance(
