@@ -4,15 +4,21 @@ import { FindByDateOutputDTO } from './dto/FindByDateOutputDTO';
 
 @Injectable()
 export class BalanceService {
-
   constructor(private bServiceImpl: BalanceServiceImpl) {}
 
-  findByDate(userid: number, date: Date = new Date()): FindByDateOutputDTO {
+  async findByDate(
+    userid: number,
+    date: Date = new Date(),
+  ): Promise<FindByDateOutputDTO> {
     if (!userid) {
       return null;
     }
     // This is where we write the business logic.
-    const transactions = this.bServiceImpl.getTransactionsForUser(userid, date);
+    const transactions = await this.bServiceImpl.getTransactionsForUser(
+      userid,
+      date,
+    );
+    Logger.log('T :' + JSON.stringify(transactions[0]));
     Logger.log('T len:' + transactions.length);
     const monthlyBalance = this.bServiceImpl.calculateMonthlyBalance(
       transactions,

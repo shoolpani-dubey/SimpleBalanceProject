@@ -34,10 +34,10 @@ describe('BalanceService', () => {
   });
 
   it('should return null data if user is not defined.', () => {
-    expect(service.findByDate(null,new Date())).toBe(null);
+    expect(service.findByDate(null, new Date())).toBe(null);
   });
   it('should return balance for current month and cumulative balance, if date is not defined', () => {
-    expect(service.findByDate(123,null)).toEqual({
+    expect(service.findByDate(123, null)).toEqual({
       monthlyBalance: 300,
       cumulativeBalance: 300,
     });

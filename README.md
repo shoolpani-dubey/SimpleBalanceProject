@@ -21,19 +21,25 @@
         }
 3. Backend: Developed in Nestjs
    1. api(/balance?date=<>) implemented.
-      1. This api will talk to a mock api ( thirdpartyapi ) to get amoount transferred and date.
+      1. This api will talk to a mock api ( thirdpartyapi ) to get amoount transferred and date.( Used jsonserver.io to simulate the same.)
       2. Calculates the monthly and cumulative amount and returns the same.
 
 4. Thirdpartyapi:
-   1. This will be developed as a mock meaning, a simple function that retuns the fixed result as json .
+   1. This will be developed as a mock meaning, a simple function that retuns the fixed result as json .( Used jsonserver.io for the same.)
 
 5. Tests:
-   1. The api is tested using Jest and multiple test cases are written
-   2. The thirdpartyapi is mocked and tested.
-   3. All the test files have extention ".spec.ts"
-   4. To run the tests:
-      1. cd server
-      2. npm run test
+   1. Server Unit and intigration Tests
+      1. The api is tested using Jest and multiple test cases are written
+      2. The thirdpartyapi is mocked and tested.
+      3. All the test files have extention ".spec.ts".
+      4. To run the tests:
+         1. cd server
+         2. npm run test
+   2. Client Unit Tests
+      1. All tests have extension ".test.tsx" or ".test.ts"
+      2. To run the test:
+         1. cd client
+         2. npm run test
 
 
 # How to compile and build the application:
@@ -54,7 +60,7 @@
    2. Build the image with command: 
       1. docker build . -t server01:tag01
       2. tag01 is the tag for the build.
-   3. To send the image to remote you need to push the built and tagged image to an image registory. This can be done with below command: ( Assuming that myRegistry is your private registry.)
+   3. To send the image to remote, you need to push the built and tagged image to an image registory. This can be done with below command: ( Assuming that myRegistry is your private registry.)
       1. docker tag server01:tag01 myRegistry.com/server01:tag01
       2. docker push myRegistry.com/server01:tag01
    4. Now you can pull the docker image in your remote box uisng command:

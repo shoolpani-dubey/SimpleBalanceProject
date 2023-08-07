@@ -37,8 +37,11 @@ export default function DatePicker(props:DatePickerIntf){
         props.onDateSelect(dateObj);
     };
     return <div className={dateStyle.datePickerWrapper}>
-        <label>Select Date</label>
+        <label
+            data-testid="date-picker-label"
+            >Select Date</label>
         <input
+            data-testid="date-picker"
             type="date"
             max={getInDateString(new Date())}
             value={getInDateString(props.defaultValue)}
