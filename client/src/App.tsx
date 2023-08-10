@@ -1,54 +1,26 @@
-import { useEffect, useState } from 'react';
-import DatePicker from './components/date-picker';
-import MonthlyBalance from './components/monthly-balance';
-import CumulativeBalance from './components/cumulative-balance';
-import ResultComp from './components/result-component';
-import { fetchBalanceForDate } from './service/fetchService';
-interface BalanceDataIntf{
-  monthlyBalance: number,
-  cumulativeBalance: number
+import { useState } from "react";
+import { BalancePage } from "./components/balance-page";
+import LoginPage from "./components/login-page";
+interface User {
+  username: string;
+  jwt: string;
 }
-function App() {
-  const [selectedDate, setSelectedDate]=useState(new Date());
-  const [monthlyBalance, setMonthlyBalance] = useState(0);
-  const [cumulativeBalance, setCumulativeBalance] = useState(0);
+export default function App() {
+  const [user, setUser] = useState<User | null>(null);
 
-  const fetchBalance = async (date: Date) => {
-    const balanceData:BalanceDataIntf = await fetchBalanceForDate(date);
-    balanceData?.cumulativeBalance
-    && balanceData?.cumulativeBalance > 0
-    ? setCumulativeBalance(balanceData.cumulativeBalance)
-    : setCumulativeBalance(0);
-
-    balanceData?.monthlyBalance
-    && balanceData?.monthlyBalance > 0
-    ? setMonthlyBalance(balanceData.monthlyBalance)
-    : setMonthlyBalance(0);
-  }
-  const onDateSelect = (date:Date) => {
-    if(!date){
+  const handleLogin = (
+    username: string,
+    loginResp: { access_token: string }
+  ) => {
+    if (!loginResp?.access_token) {
       return;
     }
-    setSelectedDate(date);
-    fetchBalance(date);
+    setUser({ username, jwt: loginResp.access_token });
   };
-  useEffect(()=>{
-    fetchBalance(selectedDate);
-  },[]);
-  return (
-    <>
-      <DatePicker
-        defaultValue={selectedDate}
-        value={selectedDate}
-        onDateSelect={onDateSelect} />
-      <ResultComp>
-        <MonthlyBalance value={monthlyBalance}/>
-        <CumulativeBalance value={cumulativeBalance}/>
-      </ResultComp>
-    </>
-  );
+
+  if (!user?.jwt) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
+  return <BalancePage accessToken={user.jwt} />;
 }
-
-export default App
-
-

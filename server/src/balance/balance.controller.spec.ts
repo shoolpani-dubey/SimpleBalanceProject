@@ -12,12 +12,12 @@ describe('BalanceController', () => {
   let controller: BalanceController;
 
   const mockBalanceService = {
-    findByDate:()=>{
+    findByDate: () => {
       return {
-        cumulativeBalance:0,
-        monthlyBalance:0,
-      }
-    }
+        cumulativeBalance: 0,
+        monthlyBalance: 0,
+      };
+    },
   };
 
   beforeEach(async () => {
@@ -36,8 +36,9 @@ describe('BalanceController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('if valid date as input then should return the balance',()=>{
-    expect( controller.findByDate({
+  it('if valid date as input then should return the balance', () => {
+    expect(
+      controller.findByDate({
         date: new Date(),
       }),
     ).toEqual({
@@ -46,7 +47,7 @@ describe('BalanceController', () => {
     });
   });
 
-  it('inputValidationTest: if not date supplied then should throw error',async ()=>{
+  it('inputValidationTest: if not date supplied then should throw error', async () => {
     const validation: ValidationPipe = new ValidationPipe({
       transform: true,
       whitelist: true,
