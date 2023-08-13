@@ -18,13 +18,15 @@ export class UsersService implements OnModuleInit {
     const user = await this.userRepository.findOne({
       where: { username: 'demo' },
     });
-    if (!user) {
-      const demoUser = new User();
-      demoUser.username = 'demo';
-      const saltOrRounds = 10;
-      demoUser.password = await bcrypt.hash('demo', saltOrRounds);
-      await this.userRepository.save(demoUser);
+    if (user?.username) {
+      return;
     }
+
+    const demoUser = new User();
+    demoUser.username = 'demo';
+    const saltOrRounds = 10;
+    demoUser.password = await bcrypt.hash('demo', saltOrRounds);
+    return await this.userRepository.save(demoUser);
   }
   async createUser(username: string, password: string): Promise<User> {
     const userObj = new User();

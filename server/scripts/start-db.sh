@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-SERVER="my_postresql_server";
+SERVER="postgresdb";
 PW="mysecretpassword";
 DB="dummy_db";
 

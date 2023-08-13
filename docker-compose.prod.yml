@@ -9,8 +9,7 @@ services:
       - POSTGRES_DB=dummy_db
       - POSTGRES_USER=postgres
   web:
-    build: .
-    # image: server01:tag01
+    image: server01:tag01
     ports:
       - 3000:3000
     environment:
