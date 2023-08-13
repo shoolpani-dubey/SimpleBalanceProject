@@ -25,8 +25,9 @@ export class BalanceController {
     @Request() req,
   ): Promise<FindByDateOutputDTO> {
     Logger.log('Entered findByDate with query:' + qeryDTO.date);
+    Logger.log('The user name entered is:' + req.user.username);
     // Assuming that authenticated user is accessing the resource.
-    const authenticatedUserId = 10001;
+    const authenticatedUserId = req.user.username;
     return this.bService.findByDate(authenticatedUserId, qeryDTO.date);
   }
 }
