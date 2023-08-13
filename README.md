@@ -9,8 +9,8 @@
 
 # Solution
 1. Assumptions:
-   1. No authentication is needed for users.
-   2. The data is always shown for one user.
+   1. I have added an authentication layer that logs a fixed user in, if the correct credential is provided. User demo as both username and password.
+   2. The login will return a jwt and that will be used with the balance rest api.
 2. Frontend: Developed in React using Vite.
    1. Single page with a date selector to select Month and year.
       1. On date select, call api to get and display monthly and cumulative total.
@@ -21,7 +21,7 @@
         }
 3. Backend: Developed in Nestjs
    1. api(/balance?date=<>) implemented.
-      1. This api will talk to a mock api ( thirdpartyapi ) to get amoount transferred and date.( Used jsonserver.io to simulate the same.)
+      1. This api will talk to a mock api ( thirdpartyapi ) to get amount transferred and date.( Used jsonserver.io as mockserver to simulate the same.)
       2. Calculates the monthly and cumulative amount and returns the same.
 
 4. Thirdpartyapi:
@@ -52,19 +52,32 @@
    2. Server:
       1. cd server
       2. npm i
-      3. npm run start:dev
-      4. The server is accessable at: http://localhost:3000/
+      3. Start the db server
+         1. npm run start:dev:db
+      4. npm run start:dev
+      5. The server is accessable at: http://localhost:3000/
 
 2. Remote deployment:
-   1. The deployment is done using docker.
-   2. Build the image with command: 
-      1. docker build . -t server01:tag01
-      2. tag01 is the tag for the build.
-   3. To send the image to remote, you need to push the built and tagged image to an image registory. This can be done with below command: ( Assuming that myRegistry is your private registry.)
-      1. docker tag server01:tag01 myRegistry.com/server01:tag01
-      2. docker push myRegistry.com/server01:tag01
-   4. Now you can pull the docker image in your remote box uisng command:
-      1. docker pull myRegistry.com/server01:tag01
-   5. And you can run the image using the command
-      1. docker run -dp 127.0.0.1:3000:3000 server01:tag01
-   6. Now you should be able to access the image using public ip of the box with port 3000.
+   1. Remote deployment for testing(dev/staging/qa)
+      1. git clone the repository in the remote linux box.
+      2. Then run below command to setup the server( assuming you have docker-compose installed)
+         1. docker-compose up -d
+      3. This will set up two different images
+         1. First it will setup the database
+         2. Second it will setup the backend which will also serve the front end files.
+      4. Now find out your public url/ip address
+      5. The website should be accessible at 
+         1. http://<ip_address>:3000
+   2. Remote deployment for production:
+      1. First build the backed image to be deployed
+         1. docker build . -t server01:tag01
+      2. Now we send the image to an image repository like docker hub. Below commands help
+         1. docker tag server01:tag01 myRegistry.com/server01:tag01
+         2. docker push myRegistry.com/server01:tag01
+      3. Next in the linux box where the production is to be done:
+         1. We will pull the backend image that pushed to image repository.
+            1.  docker pull myRegistry.com/server01:tag01
+         2. Copy the docker-compose.prod.yml to the remote box and run below command
+            1.  docker-compose -f docker-compose.prod.yml up -d
+         3. Now the box's ip address. Now you should be able to access the application at below url:
+            1.  http://<ip_address>:3000

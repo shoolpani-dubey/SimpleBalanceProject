@@ -1,0 +1,36 @@
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .loginBox{
+        padding: 1rem;
+        border: 1px solid lightgrey;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        .loginError{
+            background: red;
+            color:white;
+            padding: 1rem;
+            font-size: 2rem;
+        }
+        .loginBoxLabel{
+            margin: 0;
+            padding: 0 0 1rem 0;
+            font-size: 2rem;
+            font-weight: normal;
+        }
+        .buttonEle{
+            font-size: 1.5rem;
+            padding: 1rem;
+            background: green;
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            width: fit-content;
+        }
+    }
+}

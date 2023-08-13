@@ -1,0 +1,16 @@
+version: '0.0.1'
+services:
+  postgresdb:
+    container_name: postgresdb
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=dummy_db
+      - POSTGRES_USER=postgres
+  web:
+    image: server01:tag01
+    ports:
+      - 3000:3000
+    environment:
+      - POSTGRES_HOST=postgresdb
